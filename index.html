@@ -143,88 +143,6 @@
       background: var(--gold);
       transition: var(--transition);
     }
-    /* Agent portrait placeholder */
-    .agent-portrait {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--dark-3) 0%, var(--dark-4) 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-    .agent-portrait::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 30% 70%, rgba(201,168,76,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.04) 0%, transparent 50%);
-    }
-
-    .portrait-circle {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .portrait-circle::before {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.12);
-    }
-    .portrait-circle::after {
-      content: '';
-      position: absolute;
-      inset: -16px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.06);
-    }
-
-    .portrait-initials {
-      font-family: var(--font-display);
-      font-size: 5rem;
-      font-weight: 300;
-      color: var(--gold);
-      letter-spacing: -0.02em;
-    }
-
-    .portrait-badge {
-      background: rgba(10,10,10,0.8);
-      border: 1px solid rgba(201,168,76,0.25);
-      padding: 0.75rem 2rem;
-      text-align: center;
-    }
-    .portrait-badge .badge-name {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--white);
-    }
-    .portrait-badge .badge-role {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-top: 0.25rem;
-    }
-
-    /* Gold vertical line decor */
-    .hero-line {
-      position: absolute;
-      top: 8rem;
-      right: 0;
-      width: 1px;
-      height: 60%;
-      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
-      z-index: 2;
-    }
 
     /* ============ HERO ============ */
     #hero {
@@ -337,6 +255,88 @@
       overflow: hidden;
     }
 
+    /* Agent portrait placeholder */
+    .agent-portrait {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--dark-3) 0%, var(--dark-4) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .agent-portrait::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 70%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    }
+
+    .portrait-circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .portrait-circle::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+    .portrait-circle::after {
+      content: '';
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.06);
+    }
+
+    .portrait-initials {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+    }
+
+    .portrait-badge {
+      background: rgba(10,10,10,0.8);
+      border: 1px solid rgba(201,168,76,0.25);
+      padding: 0.75rem 2rem;
+      text-align: center;
+    }
+    .portrait-badge .badge-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .portrait-badge .badge-role {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 0.25rem;
+    }
+
+    /* Gold vertical line decor */
+    .hero-line {
+      position: absolute;
+      top: 8rem;
+      right: 0;
+      width: 1px;
+      height: 60%;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+      z-index: 2;
+    }
 
     /* Scroll indicator */
     .scroll-indicator {
@@ -1042,7 +1042,23 @@
       <h2 class="section-title reveal reveal-delay-1">
         Turning Properties<br>Into <em>Dream Homes</em>
       </h2>
-     
+      <div class="about-stats reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Properties Sold</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5★</div>
+          <div class="stat-label">Client Rating</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">AA</div>
+          <div class="stat-label">Addis Ababa</div>
+        </div>
       </div>
     </div>
     <div class="about-right">
