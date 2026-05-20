@@ -2,1406 +2,1299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sofonias Teshome — Real Estate Agent | Metro Real Estate</title>
-  <meta name="description" content="Sofonias Teshome, Real Estate Sales Agent at Metro Real Estate, Addis Ababa. Find your dream home in Ethiopia with expert guidance." />
-
-  <!-- Fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Sofonias Teshome — Real Estate Agent</title>
+  <meta name="description" content="Sofonias Teshome, Sales Agent at Metro Real Estate, Addis Ababa. Find your dream property in Ethiopia." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* ============ CSS RESET & VARIABLES ============ */
+    /* ── RESET ─────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --gold:        #C9A84C;
-      --gold-light:  #E8C97A;
-      --gold-dim:    #8A6B2E;
-      --dark:        #0A0A0A;
-      --dark-2:      #111111;
-      --dark-3:      #181818;
-      --dark-4:      #222222;
-      --white:       #F5F0E8;
-      --white-dim:   rgba(245,240,232,0.55);
-      --white-faint: rgba(245,240,232,0.10);
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body:    'Montserrat', sans-serif;
-      --transition:   0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --gold:       #C9A84C;
+      --gold-lt:    #E8C97A;
+      --gold-dk:    #7A5E28;
+      --ink:        #0A0A0A;
+      --ink2:       #131313;
+      --ink3:       #1C1C1C;
+      --ink4:       #252525;
+      --cream:      #F4EFE6;
+      --cream-dim:  rgba(244,239,230,0.55);
+      --cream-faint:rgba(244,239,230,0.10);
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'DM Sans', system-ui, sans-serif;
+      --ease:       cubic-bezier(0.25,0.46,0.45,0.94);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
     body {
-      background: var(--dark);
-      color: var(--white);
-      font-family: var(--font-body);
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--sans);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.65;
       overflow-x: hidden;
+      /* Smooth momentum scroll on iOS */
+      -webkit-overflow-scrolling: touch;
     }
 
-    ::selection { background: var(--gold); color: var(--dark); }
+    ::selection { background: var(--gold); color: var(--ink); }
 
-    /* ============ SCROLLBAR ============ */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--dark-2); }
-    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+    /* Thin scrollbar on desktop */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--ink2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); }
 
-    /* ============ GRAIN OVERLAY ============ */
-    body::before {
+    /* ── GRAIN OVERLAY ──────────────────────── */
+    body::after {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 9999;
-      opacity: 0.4;
+      z-index: 9000;
+      opacity: 0.5;
     }
 
-    /* ============ NAV ============ */
-    nav {
+    /* ── STICKY BOTTOM NAV (mobile-first) ───── */
+    .bottom-nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(10,10,10,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(201,168,76,0.15);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 4rem;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(201,168,76,0.12);
-      transition: padding var(--transition);
+      justify-content: space-around;
+      padding: 0.6rem 0.5rem calc(0.6rem + var(--safe-bottom));
     }
-    nav.scrolled { padding: 0.85rem 4rem; }
-
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: var(--white);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--gold); }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      text-decoration: none;
-      transition: color var(--transition);
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 1px;
-      background: var(--gold);
-      transition: width var(--transition);
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-links a:hover::after { width: 100%; }
-
-    .nav-cta {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dark);
-      background: var(--gold);
-      padding: 0.6rem 1.5rem;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background var(--transition), color var(--transition);
-    }
-    .nav-cta:hover { background: var(--gold-light); }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 1.5px;
-      background: var(--gold);
-      transition: var(--transition);
-    }
-
-    /* ============ HERO ============ */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left {
+    .bottom-nav a {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 10rem 4rem 6rem 4rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: flex;
       align-items: center;
-      gap: 1rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--gold);
-    }
-
-    .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 5vw, 5.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-    }
-    .hero-name em {
-      font-style: italic;
-      color: var(--gold-light);
-    }
-
-    .hero-title {
-      font-size: 0.72rem;
+      gap: 3px;
+      text-decoration: none;
+      color: var(--cream-dim);
+      font-size: 0.55rem;
       font-weight: 400;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--white-dim);
-      margin-bottom: 2.5rem;
+      transition: color 0.3s;
+      min-width: 52px;
+      padding: 0.25rem;
+    }
+    .bottom-nav a svg {
+      width: 20px; height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      transition: stroke 0.3s;
+    }
+    .bottom-nav a.active,
+    .bottom-nav a:active { color: var(--gold); }
+
+    /* Desktop: hide bottom nav, show top nav */
+    .top-nav {
+      display: none;
     }
 
-    .hero-desc {
-      font-size: 0.9rem;
-      color: var(--white-dim);
-      max-width: 400px;
-      margin-bottom: 3rem;
-      line-height: 1.9;
+    @media (min-width: 768px) {
+      .bottom-nav { display: none; }
+      .top-nav {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 999;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 3rem;
+        background: rgba(10,10,10,0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(201,168,76,0.12);
+      }
+      .top-nav .logo {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--cream);
+        text-decoration: none;
+        letter-spacing: 0.03em;
+      }
+      .top-nav .logo span { color: var(--gold); }
+      .top-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+      .top-nav ul a {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--cream-dim);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .top-nav ul a:hover { color: var(--gold); }
+      .top-nav .cta {
+        font-size: 0.62rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: var(--gold);
+        padding: 0.6rem 1.4rem;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+      .top-nav .cta:hover { background: var(--gold-lt); }
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dark);
-      background: var(--gold);
-      padding: 1rem 2.5rem;
-      text-decoration: none;
-      transition: background var(--transition), transform var(--transition);
-      display: inline-block;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-    .btn-secondary {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: transparent;
-      padding: 1rem 2.5rem;
-      text-decoration: none;
-      border: 1px solid rgba(201,168,76,0.35);
-      transition: border-color var(--transition), color var(--transition), transform var(--transition);
-      display: inline-block;
-    }
-    .btn-secondary:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    .hero-right {
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Agent portrait placeholder */
-    .agent-portrait {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--dark-3) 0%, var(--dark-4) 100%);
+    /* ── HERO ───────────────────────────────── */
+    #hero {
+      min-height: 100svh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+      padding: 0 0 calc(80px + var(--safe-bottom));
     }
-    .agent-portrait::before {
-      content: '';
+
+    /* Background pattern */
+    .hero-bg {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 30% 70%, rgba(201,168,76,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.04) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        linear-gradient(180deg, var(--ink) 0%, var(--ink2) 100%);
     }
 
-    .portrait-circle {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .portrait-circle::before {
+    /* Diagonal gold line */
+    .hero-bg::after {
       content: '';
       position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.12);
-    }
-    .portrait-circle::after {
-      content: '';
-      position: absolute;
-      inset: -16px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.06);
-    }
-
-    .portrait-initials {
-      font-family: var(--font-display);
-      font-size: 5rem;
-      font-weight: 300;
-      color: var(--gold);
-      letter-spacing: -0.02em;
-    }
-
-    .portrait-badge {
-      background: rgba(10,10,10,0.8);
-      border: 1px solid rgba(201,168,76,0.25);
-      padding: 0.75rem 2rem;
-      text-align: center;
-    }
-    .portrait-badge .badge-name {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--white);
-    }
-    .portrait-badge .badge-role {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-top: 0.25rem;
-    }
-
-    /* Gold vertical line decor */
-    .hero-line {
-      position: absolute;
-      top: 8rem;
-      right: 0;
+      top: 0; right: 10%;
       width: 1px;
-      height: 60%;
-      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
-      z-index: 2;
+      height: 45%;
+      background: linear-gradient(to bottom, transparent, var(--gold-dk), transparent);
     }
 
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 4rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      z-index: 2;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-    .scroll-text {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      writing-mode: vertical-rl;
-    }
-
-    /* ============ SECTION COMMONS ============ */
-    section {
-      padding: 7rem 4rem;
-    }
-    .section-label {
-      font-size: 0.62rem;
-      font-weight: 500;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 30px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 3.5vw, 3.5rem);
-      font-weight: 300;
-      line-height: 1.15;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-    .section-title em { font-style: italic; color: var(--gold-light); }
-
-    /* ============ ABOUT ============ */
-    #about {
-      background: var(--dark-2);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-top: 3rem;
-    }
-    .stat-card {
-      background: var(--dark-3);
-      padding: 2rem;
-      border-top: 1px solid rgba(201,168,76,0.2);
-      transition: border-color var(--transition);
-    }
-    .stat-card:hover { border-top-color: var(--gold); }
-    .stat-number {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      margin-top: 0.5rem;
-    }
-
-    .about-right p {
-      color: var(--white-dim);
-      font-size: 0.9rem;
-      margin-bottom: 1.25rem;
-      line-height: 1.9;
-    }
-
-    .about-values {
-      margin-top: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .value-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-    .value-icon {
-      width: 28px;
-      height: 28px;
-      border: 1px solid rgba(201,168,76,0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .value-icon svg { width: 12px; height: 12px; fill: var(--gold); }
-    .value-text {
-      font-size: 0.82rem;
-      color: var(--white-dim);
-    }
-    .value-text strong { color: var(--white); font-weight: 500; }
-
-    /* ============ SERVICES ============ */
-    #services {
-      background: var(--dark);
-    }
-    .services-header {
-      max-width: 600px;
-      margin-bottom: 4rem;
-    }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-    .service-card {
-      background: var(--dark-2);
-      padding: 3rem 2.5rem;
+    .hero-content {
       position: relative;
-      overflow: hidden;
-      cursor: default;
-      transition: background var(--transition);
-    }
-    .service-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-card:hover { background: var(--dark-3); }
-
-    .service-number {
-      font-family: var(--font-display);
-      font-size: 4rem;
-      font-weight: 300;
-      color: rgba(201,168,76,0.1);
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-    .service-icon {
-      margin-bottom: 1.5rem;
-    }
-    .service-icon svg { width: 28px; height: 28px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
-    .service-name {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
-    .service-desc {
-      font-size: 0.82rem;
-      color: var(--white-dim);
-      line-height: 1.8;
+      z-index: 2;
+      padding: 0 1.5rem;
     }
 
-    /* ============ GALLERY ============ */
-    #gallery {
-      background: var(--dark-2);
-    }
-    .gallery-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      gap: 2rem;
-    }
-    .gallery-link {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      transition: gap var(--transition);
-      white-space: nowrap;
-    }
-    .gallery-link:hover { gap: 1.25rem; }
-    .gallery-link svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      grid-template-rows: 260px 260px;
-      gap: 2px;
-    }
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      background: var(--dark-3);
-      cursor: pointer;
-    }
-    .gallery-item:first-child { grid-row: 1 / 3; }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.7s;
-      filter: brightness(0.75) saturate(0.8);
-    }
-    .gallery-item:hover img {
-      transform: scale(1.05);
-      filter: brightness(0.9) saturate(1);
-    }
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10,10,10,0.7) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity var(--transition);
-      display: flex;
-      align-items: flex-end;
-      padding: 1.5rem;
-    }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-    .gallery-overlay-text {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    /* Placeholder gallery items */
-    .gallery-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      background: linear-gradient(135deg, var(--dark-3), var(--dark-4));
-    }
-    .gallery-placeholder svg { width: 28px; height: 28px; stroke: rgba(201,168,76,0.3); fill: none; }
-    .gallery-placeholder span {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(201,168,76,0.3);
-    }
-
-    /* ============ METRO PARTNERSHIP ============ */
-    #metro {
-      background: var(--dark);
-      text-align: center;
-      padding: 6rem 4rem;
-    }
-    .metro-inner {
-      max-width: 780px;
-      margin: 0 auto;
-    }
-    .metro-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--dark-2);
-      border: 1px solid rgba(201,168,76,0.2);
-      padding: 1rem 2.5rem;
-      margin-bottom: 3rem;
-    }
-    .metro-badge-dot {
-      width: 6px;
-      height: 6px;
+    /* Avatar ring */
+    .hero-avatar {
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      position: relative;
     }
-    .metro-badge-text {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .metro-cta-box {
-      background: var(--dark-2);
+    .hero-avatar::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
       border: 1px solid rgba(201,168,76,0.15);
-      padding: 4rem;
-      margin-top: 4rem;
-      position: relative;
-      overflow: hidden;
     }
-    .metro-cta-box::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-    }
-    .metro-cta-box p {
-      font-size: 0.88rem;
-      color: var(--white-dim);
-      margin-bottom: 2.5rem;
-      line-height: 1.9;
-    }
-
-    .metro-properties-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: transparent;
-      border: 1px solid var(--gold);
+    .hero-avatar-initials {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 300;
       color: var(--gold);
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 1.1rem 2.5rem;
-      text-decoration: none;
-      transition: background var(--transition), color var(--transition);
-    }
-    .metro-properties-link:hover { background: var(--gold); color: var(--dark); }
-    .metro-properties-link svg { width: 14px; height: 14px; }
-
-    /* ============ CONTACT ============ */
-    #contact {
-      background: var(--dark-2);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
     }
 
-    .contact-info { padding-top: 0.5rem; }
-
-    .contact-items {
-      margin-top: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.5rem;
-      padding: 1.75rem 0;
-      border-bottom: 1px solid var(--white-faint);
-      text-decoration: none;
-      transition: border-color var(--transition);
-    }
-    .contact-item:first-child { border-top: 1px solid var(--white-faint); }
-    .contact-item:hover { border-bottom-color: rgba(201,168,76,0.3); }
-
-    .contact-icon {
-      width: 44px;
-      height: 44px;
-      border: 1px solid rgba(201,168,76,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: border-color var(--transition), background var(--transition);
-    }
-    .contact-item:hover .contact-icon {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.08);
-    }
-    .contact-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
-
-    .contact-item-body {}
-    .contact-item-label {
+    .hero-eyebrow {
       font-size: 0.6rem;
-      letter-spacing: 0.25em;
+      font-weight: 400;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: var(--gold-dim);
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 11vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
       margin-bottom: 0.35rem;
     }
-    .contact-item-value {
-      font-size: 0.9rem;
-      color: var(--white);
-      font-weight: 400;
-    }
-    .contact-item-sub {
-      font-size: 0.75rem;
-      color: var(--white-dim);
-      margin-top: 0.2rem;
+    .hero-name em { font-style: italic; color: var(--gold-lt); }
+
+    .hero-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 1.75rem;
     }
 
-    /* Contact form */
-    .contact-form-wrap {}
-    .contact-form-wrap .section-label { margin-bottom: 0.75rem; }
-    .form-title {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 300;
-      color: var(--white);
+    /* Two big CTA buttons stacked on mobile */
+    .hero-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
       margin-bottom: 2rem;
     }
+    .hero-btns a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1rem 1.5rem;
+      border-radius: 0;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-btns a:active { transform: scale(0.97); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+    }
+    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+    }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+    .hero-btns a svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-gold svg { stroke: var(--ink); fill: none; stroke-width: 2; }
+    .btn-outline svg { stroke: var(--gold); fill: none; stroke-width: 1.5; }
 
-    .form-group {
+    /* Stats strip */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--cream-faint);
+      padding-top: 1.5rem;
+    }
+    .hero-stat {
+      text-align: center;
+      padding: 0 0.5rem;
+      border-right: 1px solid var(--cream-faint);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .stat-n {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION COMMONS ────────────────────── */
+    section { padding: 4rem 1.5rem; }
+    @media (min-width: 768px) {
+      section { padding: 7rem 3rem; }
+      #hero { padding-bottom: 5rem; }
+    }
+
+    .s-label {
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .s-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .s-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
       margin-bottom: 1.25rem;
     }
-    .form-group label {
-      display: block;
+    .s-title em { font-style: italic; color: var(--gold-lt); }
+
+    /* ── ABOUT ──────────────────────────────── */
+    #about { background: var(--ink2); }
+
+    .about-body {
+      font-size: 0.9rem;
+      color: var(--cream-dim);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .value-list {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .value-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+    .v-dot {
+      width: 22px; height: 22px;
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .v-dot svg { width: 10px; height: 10px; stroke: var(--gold); fill: none; stroke-width: 2.5; }
+    .value-row span { font-size: 0.82rem; color: var(--cream-dim); }
+    .value-row span strong { color: var(--cream); font-weight: 500; }
+
+    /* ── SERVICES ───────────────────────────── */
+    #services { background: var(--ink); }
+
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 2rem;
+    }
+    .service-item {
+      background: var(--ink2);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .service-item::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s var(--ease);
+    }
+    .service-item:active::after,
+    .service-item:hover::after { transform: scaleY(1); }
+    .service-item:hover { background: var(--ink3); }
+
+    .si-icon {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .si-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .si-body {}
+    .si-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 0.3rem;
+    }
+    .si-desc { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.7; }
+    .si-num {
+      margin-left: auto;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 300;
+      color: rgba(201,168,76,0.12);
+      line-height: 1;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    /* ── GALLERY ────────────────────────────── */
+    #gallery { background: var(--ink2); padding-bottom: 3rem; }
+
+    .gallery-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+    .gallery-more {
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--white-dim);
+      color: var(--gold);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      margin-top: 1.75rem;
+      flex-shrink: 0;
+    }
+    .gallery-more svg { width: 13px; height: 13px; stroke: var(--gold); fill: none; stroke-width: 2; }
+
+    /* Horizontal scroll gallery — feels native on mobile */
+    .gallery-scroll {
+      display: flex;
+      gap: 2px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin: 0 -1.5rem;
+      padding: 0 1.5rem;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+
+    .gallery-card {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      width: 72vw;
+      max-width: 320px;
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      background: var(--ink3);
+    }
+    .gallery-card:last-child { margin-right: 1.5rem; }
+
+    .gallery-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8) saturate(0.85);
+      transition: filter 0.5s, transform 0.5s;
+    }
+    .gallery-card:hover img {
+      filter: brightness(0.95) saturate(1);
+      transform: scale(1.04);
+    }
+
+    .gallery-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(10,10,10,0.75));
+      padding: 2rem 1rem 0.9rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--ink3), var(--ink4));
+    }
+    .gallery-placeholder svg { width: 24px; height: 24px; stroke: rgba(201,168,76,0.25); fill: none; }
+    .gallery-placeholder span {
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.25);
+    }
+
+    /* Scroll dots */
+    .gallery-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+    .gallery-dots span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.2);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .gallery-dots span.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+
+    /* ── METRO SECTION ──────────────────────── */
+    #metro {
+      background: var(--ink);
+      text-align: center;
+    }
+    .metro-logo-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--ink2);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .metro-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+    .metro-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    #metro .s-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+
+    .metro-body {
+      font-size: 0.85rem;
+      color: var(--cream-dim);
+      line-height: 1.85;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    .metro-address {
+      background: var(--ink2);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-top: 2px solid rgba(201,168,76,0.3);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .addr-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
       margin-bottom: 0.5rem;
     }
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      background: var(--dark-3);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: 0.88rem;
-      font-weight: 300;
-      padding: 0.9rem 1.25rem;
-      outline: none;
-      transition: border-color var(--transition);
-      appearance: none;
+    .addr-text {
+      font-size: 0.85rem;
+      color: var(--cream-dim);
+      line-height: 1.7;
     }
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: rgba(201,168,76,0.5);
-    }
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { color: rgba(245,240,232,0.25); }
-    .form-group textarea { resize: vertical; min-height: 130px; }
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .metro-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .metro-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1rem 1.5rem;
+      transition: background 0.3s, color 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .metro-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .metro-btn-gold { background: var(--gold); color: var(--ink); }
+    .metro-btn-gold:hover { background: var(--gold-lt); }
+    .metro-btn-outline { background: transparent; color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+    .metro-btn-outline:hover { border-color: var(--gold); }
+
+    /* ── CONTACT ────────────────────────────── */
+    #contact { background: var(--ink2); padding-bottom: calc(100px + var(--safe-bottom)); }
+
+    .contact-tiles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 1.75rem 0;
+    }
+
+    /* Big tap-friendly contact tiles */
+    .ctile {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      background: var(--ink3);
+      padding: 1.1rem 1.25rem;
+      text-decoration: none;
+      transition: background 0.25s;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .ctile::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 0;
+      background: rgba(201,168,76,0.07);
+      transition: width 0.4s var(--ease);
+    }
+    .ctile:active, .ctile:hover { background: var(--ink4); }
+    .ctile:hover::after { width: 100%; }
+
+    .ctile-icon {
+      width: 42px; height: 42px;
+      border: 1px solid rgba(201,168,76,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ctile-icon svg { width: 17px; height: 17px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+    .ctile-body { min-width: 0; }
+    .ctile-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dk);
+      margin-bottom: 2px;
+    }
+    .ctile-value {
+      font-size: 0.92rem;
+      color: var(--cream);
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ctile-sub { font-size: 0.72rem; color: var(--cream-dim); margin-top: 1px; }
+
+    .ctile-arrow {
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .ctile-arrow svg { width: 16px; height: 16px; stroke: rgba(201,168,76,0.3); fill: none; stroke-width: 1.5; }
+
+    /* Message form */
+    .form-card {
+      background: var(--ink3);
+      border-top: 2px solid rgba(201,168,76,0.25);
+      padding: 1.75rem 1.25rem;
+      margin-top: 2px;
+    }
+    .form-card-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+    }
+
+    .fg { margin-bottom: 1rem; }
+    .fg label {
+      display: block;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 0.4rem;
+    }
+    .fg input, .fg textarea, .fg select {
+      width: 100%;
+      background: var(--ink2);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      outline: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      transition: border-color 0.3s;
+      /* Prevent zoom on focus in iOS */
+      font-size: max(16px, 0.9rem);
+    }
+    .fg input:focus, .fg textarea:focus, .fg select:focus {
+      border-color: rgba(201,168,76,0.45);
+    }
+    .fg input::placeholder, .fg textarea::placeholder { color: rgba(244,239,230,0.22); }
+    .fg textarea { resize: none; height: 110px; }
+    .fg select option { background: var(--ink2); }
+
+    .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
     .form-submit {
       width: 100%;
       background: var(--gold);
-      color: var(--dark);
+      color: var(--ink);
       border: none;
-      font-family: var(--font-body);
+      font-family: var(--sans);
       font-size: 0.65rem;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      padding: 1.1rem;
+      padding: 1.05rem;
       cursor: pointer;
-      transition: background var(--transition);
-      margin-top: 0.5rem;
+      transition: background 0.3s;
+      margin-top: 0.25rem;
+      -webkit-tap-highlight-color: transparent;
     }
-    .form-submit:hover { background: var(--gold-light); }
+    .form-submit:active { background: var(--gold-lt); transform: scale(0.98); }
 
-    /* WhatsApp float */
-    .whatsapp-float {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 999;
-      width: 56px;
-      height: 56px;
-      background: #25D366;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      box-shadow: 0 4px 24px rgba(37,211,102,0.35);
-      transition: transform var(--transition), box-shadow var(--transition);
+    .form-note {
+      font-size: 0.7rem;
+      color: var(--cream-dim);
+      text-align: center;
+      margin-top: 0.9rem;
+      line-height: 1.6;
     }
-    .whatsapp-float:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 32px rgba(37,211,102,0.5);
-    }
-    .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
 
-    /* ============ FOOTER ============ */
+    /* ── WHATSAPP STICKY CTA ─────────────────── */
+    /* Only show on desktop — on mobile the bottom nav has it */
+    .wa-float {
+      display: none;
+    }
+    @media (min-width: 768px) {
+      .wa-float {
+        display: flex;
+        position: fixed;
+        bottom: 2rem; right: 2rem;
+        z-index: 998;
+        width: 54px; height: 54px;
+        background: #25D366;
+        border-radius: 50%;
+        align-items: center; justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .wa-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 28px rgba(37,211,102,0.5);
+      }
+      .wa-float svg { width: 26px; height: 26px; fill: #fff; }
+    }
+
+    /* ── FOOTER ─────────────────────────────── */
     footer {
-      background: var(--dark);
-      border-top: 1px solid var(--white-faint);
-      padding: 3rem 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-    .footer-left {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--white-dim);
-    }
-    .footer-left span { color: var(--gold); }
-    .footer-center {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      color: rgba(245,240,232,0.3);
+      background: var(--ink);
+      border-top: 1px solid var(--cream-faint);
+      padding: 2rem 1.5rem calc(2rem + var(--safe-bottom));
       text-align: center;
     }
-    .footer-right {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--cream-dim);
+      margin-bottom: 0.5rem;
     }
-    .footer-right a {
+    .footer-logo span { color: var(--gold); }
+    .footer-copy {
       font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.35);
-      text-decoration: none;
-      transition: color var(--transition);
+      letter-spacing: 0.12em;
+      color: rgba(244,239,230,0.28);
+      line-height: 1.8;
     }
-    .footer-right a:hover { color: var(--gold); }
-
-    /* ============ ANIMATIONS ============ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
-
-    /* Mobile menu overlay */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 998;
-      background: rgba(10,10,10,0.97);
-      flex-direction: column;
-      align-items: center;
+    .footer-links {
+      display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.5rem;
+      margin-top: 1rem;
     }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      color: var(--white);
+    .footer-links a {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(244,239,230,0.3);
       text-decoration: none;
-      transition: color var(--transition);
+      transition: color 0.3s;
     }
-    .mobile-menu a:hover { color: var(--gold); }
-    .mobile-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 2rem;
-      background: none;
-      border: none;
-      color: var(--white-dim);
-      font-size: 2rem;
-      cursor: pointer;
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── SCROLL REVEAL ──────────────────────── */
+    .rv {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
     }
+    .rv.in { opacity: 1; transform: none; }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.2s; }
+    .rv.d3 { transition-delay: 0.3s; }
 
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 1024px) {
-      nav { padding: 1.25rem 2rem; }
-      nav.scrolled { padding: 0.85rem 2rem; }
-      .nav-links { display: none; }
-      .nav-cta { display: none; }
-      .hamburger { display: flex; }
-
-      #hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 8rem 2rem 4rem; }
-      .hero-right { height: 50vh; position: relative; }
-
-      #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
-      .services-grid { grid-template-columns: 1fr; }
-      #contact { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
-      section { padding: 5rem 2rem; }
-      #gallery { padding: 5rem 2rem; }
-
-      .gallery-grid {
+    /* ── DESKTOP ADJUSTMENTS ────────────────── */
+    @media (min-width: 768px) {
+      #hero {
+        min-height: 100vh;
+        display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 200px 200px 200px;
+        align-items: end;
+        padding-bottom: 5rem;
+        padding-top: 80px;
       }
-      .gallery-item:first-child { grid-row: 1 / 2; grid-column: 1 / 3; }
+      .hero-content { padding: 0 3rem; max-width: 600px; }
+      .hero-bg-right {
+        position: absolute;
+        right: 0; top: 0; bottom: 0;
+        width: 50%;
+        background: linear-gradient(135deg, var(--ink2) 0%, var(--ink3) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-      footer { padding: 2.5rem 2rem; flex-direction: column; text-align: center; }
-    }
-
-    @media (max-width: 600px) {
-      .about-stats { grid-template-columns: 1fr 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-      .gallery-item:first-child { grid-row: auto; grid-column: auto; height: 240px; }
-      .gallery-item { height: 200px; }
-      .metro-cta-box { padding: 2.5rem 1.5rem; }
-      .hero-actions { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; }
+      #about { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+      #metro { padding: 7rem 3rem; }
+      .metro-links { flex-direction: row; justify-content: center; }
+      .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+      footer { padding: 2.5rem 3rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- WHATSAPP FLOAT -->
-  <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="WhatsApp Sofonias">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  </a>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
-    <a href="#about" onclick="closeMobile()">About</a>
-    <a href="#services" onclick="closeMobile()">Services</a>
-    <a href="#gallery" onclick="closeMobile()">Gallery</a>
-    <a href="#metro" onclick="closeMobile()">Metro</a>
-    <a href="#contact" onclick="closeMobile()">Contact</a>
-  </div>
-
-  <!-- NAV -->
-  <nav id="mainNav">
-    <a href="#hero" class="nav-logo">Sofonias <span>Teshome</span></a>
-    <ul class="nav-links">
+  <!-- TOP NAV (desktop) -->
+  <nav class="top-nav">
+    <a href="#hero" class="logo">Sofonias <span>Teshome</span></a>
+    <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#metro">Metro</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Get in Touch</a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="#contact" class="cta">Get in Touch</a>
   </nav>
 
-  <!-- ============ HERO ============ -->
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a href="#about" data-section="about">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      About
+    </a>
+    <a href="#services" data-section="services">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Services
+    </a>
+    <a href="#gallery" data-section="gallery">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Gallery
+    </a>
+    <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke-width="1.5"/></svg>
+      WhatsApp
+    </a>
+    <a href="#contact" data-section="contact">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      Contact
+    </a>
+  </nav>
+
+  <!-- WHATSAPP DESKTOP FLOAT -->
+  <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
   <section id="hero">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Metro Real Estate — Addis Ababa</div>
-      <h1 class="hero-name">
+    <div class="hero-bg"></div>
+    <!-- Desktop right panel -->
+    <div class="hero-bg-right" style="position:absolute;right:0;top:0;bottom:0;width:50%;display:none;" id="desktopPanel">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+        <div class="hero-avatar" style="width:140px;height:140px;">
+          <span class="hero-avatar-initials" style="font-size:3.5rem;">ST</span>
+        </div>
+        <div style="background:rgba(10,10,10,0.6);border:1px solid rgba(201,168,76,0.2);padding:1rem 2rem;text-align:center;">
+          <div style="font-family:var(--serif);font-size:1.2rem;color:var(--cream);">Sofonias Teshome</div>
+          <div style="font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-top:4px;">Sales Agent · Metro Real Estate™</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-avatar rv">
+        <span class="hero-avatar-initials">ST</span>
+      </div>
+      <div class="hero-eyebrow rv d1">Metro Real Estate · Addis Ababa</div>
+      <h1 class="hero-name rv d1">
         Sofonias<br><em>Teshome</em>
       </h1>
-      <p class="hero-title">Sales Agent &nbsp;·&nbsp; Metro Real Estate™</p>
-      <p class="hero-desc">
-        Your trusted guide to premium real estate in Ethiopia. From your first inquiry to the moment you hold the keys — I am here to make the journey seamless, confident, and extraordinary.
-      </p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Book a Consultation</a>
-        <a href="https://www.metrorealestateet.com/property-list" target="_blank" rel="noopener noreferrer" class="btn-secondary">Browse Properties</a>
+      <p class="hero-role rv d2">Sales Agent · Metro Real Estate™</p>
+
+      <div class="hero-btns rv d2">
+        <a href="tel:+251913554296" class="btn-gold">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72c.128.96.338 1.905.63 2.82a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.916.292 1.86.502 2.82.63A2 2 0 0122 16.92z"/></svg>
+          Call Now
+        </a>
+        <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          WhatsApp Me
+        </a>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="agent-portrait">
-        <div class="portrait-circle">
-          <span class="portrait-initials">ST</span>
+
+      <div class="hero-stats rv d3">
+        <div class="hero-stat">
+          <div class="stat-n">100+</div>
+          <div class="stat-l">Clients</div>
         </div>
-        <div class="portrait-badge">
-          <div class="badge-name">Sofonias Teshome</div>
-          <div class="badge-role">Sales Agent · Metro Real Estate™</div>
+        <div class="hero-stat">
+          <div class="stat-n">50+</div>
+          <div class="stat-l">Sold</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-n">5★</div>
+          <div class="stat-l">Rated</div>
         </div>
       </div>
-    </div>
-    <div class="hero-line"></div>
-    <div class="scroll-indicator">
-      <div class="scroll-line"></div>
-      <span class="scroll-text">Scroll</span>
     </div>
   </section>
 
-  <!-- ============ ABOUT ============ -->
+  <!-- ══════════════════════════════════════════
+       ABOUT
+  ══════════════════════════════════════════ -->
   <section id="about">
     <div>
-      <div class="section-label reveal">About Me</div>
-      <h2 class="section-title reveal reveal-delay-1">
-        Turning Properties<br>Into <em>Dream Homes</em>
-      </h2>
-      <div class="about-stats reveal reveal-delay-2">
-        <div class="stat-card">
-          <div class="stat-number">100+</div>
-          <div class="stat-label">Happy Clients</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Properties Sold</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">5★</div>
-          <div class="stat-label">Client Rating</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">AA</div>
-          <div class="stat-label">Addis Ababa</div>
-        </div>
-      </div>
-    </div>
-    <div class="about-right">
-      <div class="section-label reveal">Who I Am</div>
-      <p class="reveal reveal-delay-1">
-        I am Sofonias Teshome, a dedicated real estate sales agent at Metro Real Estate™ — one of Ethiopia's most distinguished and trusted property companies. My mission is simple: to connect people with spaces they are proud to call home.
+      <div class="s-label rv">About Me</div>
+      <h2 class="s-title rv d1">Turning Properties<br>Into <em>Dream Homes</em></h2>
+      <p class="about-body rv d2">
+        I am Sofonias Teshome, a dedicated sales agent at Metro Real Estate™ — one of Ethiopia's most trusted property companies. Based in Addis Ababa, I help clients buy, sell, and find properties that truly match their vision and lifestyle.
       </p>
-      <p class="reveal reveal-delay-2">
-        Based in Addis Ababa, I specialize in helping clients navigate Ethiopia's dynamic real estate market. Whether you are a first-time buyer, an investor seeking opportunity, or a family ready to upgrade — I bring expertise, honesty, and genuine care to every transaction.
+      <p class="about-body rv d2">
+        Whether you are a first-time buyer, an investor, or a family ready for something better — I bring honesty, local expertise, and genuine care to every step of the journey.
       </p>
-      <div class="about-values reveal reveal-delay-3">
-        <div class="value-item">
-          <div class="value-icon">
-            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <div class="value-text"><strong>Client-First Approach</strong> — Your goals are my priorities, always.</div>
+      <div class="value-list rv d3">
+        <div class="value-row">
+          <div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span><strong>Client-First</strong> — Your goals drive every decision I make.</span>
         </div>
-        <div class="value-item">
-          <div class="value-icon">
-            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <div class="value-text"><strong>Transparent Communication</strong> — Honest guidance at every step.</div>
+        <div class="value-row">
+          <div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span><strong>Transparent</strong> — Honest guidance, no surprises.</span>
         </div>
-        <div class="value-item">
-          <div class="value-icon">
-            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <div class="value-text"><strong>Local Expertise</strong> — Deep knowledge of Addis Ababa's neighborhoods.</div>
+        <div class="value-row">
+          <div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span><strong>Local Expert</strong> — Deep knowledge of Addis Ababa's market.</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ SERVICES ============ -->
+  <!-- ══════════════════════════════════════════
+       SERVICES
+  ══════════════════════════════════════════ -->
   <section id="services">
-    <div class="services-header">
-      <div class="section-label reveal">What I Offer</div>
-      <h2 class="section-title reveal reveal-delay-1">
-        Full-Spectrum<br><em>Real Estate Services</em>
-      </h2>
-    </div>
-    <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-number">01</div>
-        <div class="service-icon">
+    <div class="s-label rv">What I Offer</div>
+    <h2 class="s-title rv d1">My <em>Services</em></h2>
+
+    <div class="services-list">
+      <div class="service-item rv d1">
+        <div class="si-icon">
           <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
-        <h3 class="service-name">Property Sales</h3>
-        <p class="service-desc">Expert guidance on buying and selling residential and commercial properties across Addis Ababa. I handle every detail so you can focus on your future.</p>
+        <div class="si-body">
+          <div class="si-name">Property Sales</div>
+          <div class="si-desc">Expert guidance on buying & selling residential and commercial properties across Addis Ababa.</div>
+        </div>
+        <div class="si-num">01</div>
       </div>
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-number">02</div>
-        <div class="service-icon">
+      <div class="service-item rv d2">
+        <div class="si-icon">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
-        <h3 class="service-name">Property Search</h3>
-        <p class="service-desc">Tell me your vision and I will find it. I match you with properties that align with your lifestyle, budget, and long-term investment goals.</p>
-      </div>
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-number">03</div>
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="si-body">
+          <div class="si-name">Property Search</div>
+          <div class="si-desc">Tell me your vision — I find properties that match your lifestyle, budget, and investment goals.</div>
         </div>
-        <h3 class="service-name">Client Consultation</h3>
-        <p class="service-desc">Free one-on-one consultation sessions to understand your needs, explain the buying process, and outline a strategy tailored specifically for you.</p>
+        <div class="si-num">02</div>
+      </div>
+      <div class="service-item rv d3">
+        <div class="si-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="si-body">
+          <div class="si-name">Free Consultation</div>
+          <div class="si-desc">One-on-one sessions to understand your needs and outline a strategy just for you. No cost, no obligation.</div>
+        </div>
+        <div class="si-num">03</div>
       </div>
     </div>
   </section>
 
-  <!-- ============ GALLERY ============ -->
+  <!-- ══════════════════════════════════════════
+       GALLERY
+  ══════════════════════════════════════════ -->
   <section id="gallery">
-    <div class="gallery-header">
+    <div class="gallery-top">
       <div>
-        <div class="section-label reveal">Portfolio</div>
-        <h2 class="section-title reveal reveal-delay-1">Metro<br><em>Properties</em></h2>
+        <div class="s-label rv">Portfolio</div>
+        <h2 class="s-title rv d1">Metro<br><em>Properties</em></h2>
       </div>
-      <a href="https://www.metrorealestateet.com/gallery" target="_blank" rel="noopener noreferrer" class="gallery-link reveal reveal-delay-2">
-        View Full Gallery
-        <svg viewBox="0 0 24 24" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <a href="https://www.metrorealestateet.com/gallery" target="_blank" rel="noopener noreferrer" class="gallery-more rv d1">
+        All Photos
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
 
-    <div class="gallery-grid">
-      <!-- Gallery items — real images from Metro website via direct links -->
-      <div class="gallery-item reveal">
-        <img
-          src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F1.jpg&w=1200&q=80"
-          alt="Metro Real Estate Property"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Metro Property</span></div>'"
-        />
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Metro Real Estate™</span></div>
+    <!-- Horizontal scroll strip — native-feeling on mobile -->
+    <div class="gallery-scroll" id="galleryScroll">
+      <div class="gallery-card">
+        <img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F1.jpg&w=800&q=80" alt="Metro Property" loading="lazy"
+          onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Metro Property</span></div>'" />
+        <div class="gallery-card-label">Metro Real Estate™</div>
       </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <img
-          src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F2.jpg&w=800&q=80"
-          alt="Metro Real Estate Property"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Luxury Living</span></div>'"
-        />
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Luxury Living</span></div>
+      <div class="gallery-card">
+        <img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F2.jpg&w=800&q=80" alt="Luxury Living" loading="lazy"
+          onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Luxury Living</span></div>'" />
+        <div class="gallery-card-label">Luxury Living</div>
       </div>
-      <div class="gallery-item reveal reveal-delay-2">
-        <img
-          src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F3.jpg&w=800&q=80"
-          alt="Metro Real Estate Property"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Modern Design</span></div>'"
-        />
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Modern Design</span></div>
+      <div class="gallery-card">
+        <img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F3.jpg&w=800&q=80" alt="Modern Design" loading="lazy"
+          onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Modern Design</span></div>'" />
+        <div class="gallery-card-label">Modern Design</div>
       </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <img
-          src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F4.jpg&w=800&q=80"
-          alt="Metro Real Estate Property"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Premium Spaces</span></div>'"
-        />
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Premium Spaces</span></div>
+      <div class="gallery-card">
+        <img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F4.jpg&w=800&q=80" alt="Premium Spaces" loading="lazy"
+          onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Premium Spaces</span></div>'" />
+        <div class="gallery-card-label">Premium Spaces</div>
       </div>
-      <div class="gallery-item reveal reveal-delay-2">
-        <img
-          src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F5.jpg&w=800&q=80"
-          alt="Metro Real Estate Property"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Dream Homes</span></div>'"
-        />
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Dream Homes</span></div>
+      <div class="gallery-card">
+        <img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F5.jpg&w=800&q=80" alt="Dream Homes" loading="lazy"
+          onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Dream Homes</span></div>'" />
+        <div class="gallery-card-label">Dream Homes</div>
       </div>
+    </div>
+    <!-- Scroll indicator dots -->
+    <div class="gallery-dots" id="galleryDots">
+      <span class="active"></span>
+      <span></span><span></span><span></span><span></span>
     </div>
   </section>
 
-  <!-- ============ METRO PARTNERSHIP ============ -->
+  <!-- ══════════════════════════════════════════
+       METRO PARTNERSHIP
+  ══════════════════════════════════════════ -->
   <section id="metro">
-    <div class="metro-inner">
-      <div class="metro-badge reveal">
-        <div class="metro-badge-dot"></div>
-        <span class="metro-badge-text">Official Sales Agent</span>
-        <div class="metro-badge-dot"></div>
-      </div>
-      <div class="section-label reveal" style="justify-content:center;">Backed By</div>
-      <h2 class="section-title reveal reveal-delay-1" style="font-size: clamp(2.5rem,4vw,4.5rem);">
-        Metro Real<br><em>Estate™</em>
-      </h2>
+    <div class="metro-logo-box rv">
+      <div class="metro-dot"></div>
+      <span class="metro-label">Official Sales Agent</span>
+      <div class="metro-dot"></div>
+    </div>
+    <div class="s-label rv" style="justify-content:center;">Backed By</div>
+    <h2 class="s-title rv d1" style="text-align:center;font-size:clamp(2.5rem,10vw,4rem);">
+      Metro<br><em>Real Estate™</em>
+    </h2>
 
-      <div class="metro-cta-box reveal reveal-delay-2">
-        <p>
-          As an official agent at Metro Real Estate™ — Ethiopia's premier property development company — I have direct access to exclusive listings, off-plan properties, and the full Metro portfolio. When you work with me, you get the intimacy of a personal agent backed by the power of a world-class institution.
-        </p>
-        <p>
-          Metro Real Estate's Sales Office is located at the 2nd Floor, Sur Construction Building, Africa Avenue, Addis Ababa. Their dedicated team is available to serve clients worldwide.
-        </p>
-        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;">
-          <a href="https://www.metrorealestateet.com/property-list" target="_blank" rel="noopener noreferrer" class="metro-properties-link">
-            Browse All Properties
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <a href="https://www.metrorealestateet.com" target="_blank" rel="noopener noreferrer" class="metro-properties-link" style="background:transparent;">
-            Visit Metro Website
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </a>
-        </div>
+    <p class="metro-body rv d2">
+      As an official agent at Metro Real Estate™ — Ethiopia's premier property company — I have direct access to exclusive listings, off-plan developments, and the full Metro portfolio.
+    </p>
+
+    <div class="metro-address rv d2">
+      <div class="addr-label">Office Location</div>
+      <div class="addr-text">
+        2nd Floor, Sur Construction Building<br>
+        Africa Avenue, Addis Ababa, Ethiopia<br>
+        <span style="color:var(--gold);margin-top:4px;display:block;">+251 938 060 606</span>
       </div>
+    </div>
+
+    <div class="metro-links rv d3">
+      <a href="https://www.metrorealestateet.com/property-list" target="_blank" rel="noopener noreferrer" class="metro-btn metro-btn-gold">
+        Browse All Properties
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="https://www.metrorealestateet.com" target="_blank" rel="noopener noreferrer" class="metro-btn metro-btn-outline">
+        Visit Metro Website
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
   </section>
 
-  <!-- ============ CONTACT ============ -->
+  <!-- ══════════════════════════════════════════
+       CONTACT
+  ══════════════════════════════════════════ -->
   <section id="contact">
-    <div class="contact-info">
-      <div class="section-label reveal">Get in Touch</div>
-      <h2 class="section-title reveal reveal-delay-1">
-        Let's Find Your<br><em>Perfect Space</em>
-      </h2>
-      <p class="reveal reveal-delay-2" style="color:var(--white-dim);font-size:0.88rem;margin-bottom:2rem;max-width:380px;line-height:1.9;">
-        Ready to start your real estate journey? Reach out directly — I respond promptly and am happy to speak with you about any property inquiry.
-      </p>
+    <div class="contact-grid">
+      <div>
+        <div class="s-label rv">Get in Touch</div>
+        <h2 class="s-title rv d1">Let's Find Your<br><em>Perfect Space</em></h2>
+        <p class="rv d2" style="font-size:0.85rem;color:var(--cream-dim);margin-bottom:0.25rem;line-height:1.8;">
+          Reach out directly — I respond quickly and am always happy to talk about any property.
+        </p>
 
-      <div class="contact-items">
-        <a href="tel:+251913554296" class="contact-item reveal">
-          <div class="contact-icon">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .99h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-          </div>
-          <div class="contact-item-body">
-            <div class="contact-item-label">Personal Phone</div>
-            <div class="contact-item-value">+251 913 554 296</div>
-            <div class="contact-item-sub">Call or WhatsApp anytime</div>
-          </div>
-        </a>
-
-        <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer" class="contact-item reveal reveal-delay-1">
-          <div class="contact-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-          </div>
-          <div class="contact-item-body">
-            <div class="contact-item-label">WhatsApp</div>
-            <div class="contact-item-value">+251 913 554 296</div>
-            <div class="contact-item-sub">Quick responses via WhatsApp</div>
-          </div>
-        </a>
-
-        <a href="mailto:sales@metrorealestateet.com" class="contact-item reveal reveal-delay-2">
-          <div class="contact-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div class="contact-item-body">
-            <div class="contact-item-label">Office Email</div>
-            <div class="contact-item-value">sales@metrorealestateet.com</div>
-            <div class="contact-item-sub">Metro Real Estate™ Sales Team</div>
-          </div>
-        </a>
-
-        <a href="tel:+251938060606" class="contact-item reveal reveal-delay-3">
-          <div class="contact-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div class="contact-item-body">
-            <div class="contact-item-label">Metro Office Line</div>
-            <div class="contact-item-value">+251 938 060 606</div>
-            <div class="contact-item-sub">2nd Floor, Sur Construction Bldg, Africa Ave, Addis Ababa</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Contact Form -->
-    <div class="contact-form-wrap reveal reveal-delay-2">
-      <div class="section-label">Send a Message</div>
-      <p class="form-title">Start the Conversation</p>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" placeholder="Your first name" />
-        </div>
-        <div class="form-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" placeholder="Your last name" />
+        <div class="contact-tiles">
+          <!-- Call -->
+          <a href="tel:+251913554296" class="ctile rv">
+            <div class="ctile-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72c.128.96.338 1.905.63 2.82a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.916.292 1.86.502 2.82.63A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="ctile-body">
+              <div class="ctile-label">Personal Phone</div>
+              <div class="ctile-value">+251 913 554 296</div>
+              <div class="ctile-sub">Tap to call</div>
+            </div>
+            <div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </a>
+          <!-- WhatsApp -->
+          <a href="https://wa.me/251913554296" target="_blank" rel="noopener noreferrer" class="ctile rv d1">
+            <div class="ctile-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            </div>
+            <div class="ctile-body">
+              <div class="ctile-label">WhatsApp</div>
+              <div class="ctile-value">+251 913 554 296</div>
+              <div class="ctile-sub">Fastest way to reach me</div>
+            </div>
+            <div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </a>
+          <!-- Office -->
+          <a href="tel:+251938060606" class="ctile rv d2">
+            <div class="ctile-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="ctile-body">
+              <div class="ctile-label">Metro Office</div>
+              <div class="ctile-value">+251 938 060 606</div>
+              <div class="ctile-sub">Africa Avenue, Addis Ababa</div>
+            </div>
+            <div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </a>
+          <!-- Email -->
+          <a href="mailto:sales@metrorealestateet.com" class="ctile rv d3">
+            <div class="ctile-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="ctile-body">
+              <div class="ctile-label">Email</div>
+              <div class="ctile-value">sales@metrorealestateet.com</div>
+              <div class="ctile-sub">Metro Real Estate™</div>
+            </div>
+            <div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </a>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="your@email.com" />
+      <!-- Message Form -->
+      <div class="form-card rv d2">
+        <div class="form-card-title">Send a Message</div>
+        <div class="fg-row">
+          <div class="fg">
+            <label for="fn">First Name</label>
+            <input type="text" id="fn" placeholder="First name" autocomplete="given-name" />
+          </div>
+          <div class="fg">
+            <label for="ln">Last Name</label>
+            <input type="text" id="ln" placeholder="Last name" autocomplete="family-name" />
+          </div>
+        </div>
+        <div class="fg">
+          <label for="ph">Phone</label>
+          <input type="tel" id="ph" placeholder="+251..." autocomplete="tel" />
+        </div>
+        <div class="fg">
+          <label for="int">I'm interested in</label>
+          <select id="int">
+            <option value="" disabled selected>Select...</option>
+            <option>Buying a property</option>
+            <option>Selling a property</option>
+            <option>Investment opportunity</option>
+            <option>General inquiry</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="msg">Message</label>
+          <textarea id="msg" placeholder="Tell me what you're looking for..."></textarea>
+        </div>
+        <button class="form-submit" onclick="sendViaWhatsApp()">Send via WhatsApp</button>
+        <p class="form-note">Your message opens in WhatsApp — fast & convenient.</p>
       </div>
-
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" placeholder="+251 ..." />
-      </div>
-
-      <div class="form-group">
-        <label for="interest">I am interested in</label>
-        <select id="interest">
-          <option value="" disabled selected>Select an option</option>
-          <option>Buying a property</option>
-          <option>Selling a property</option>
-          <option>Investment opportunity</option>
-          <option>General inquiry</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Tell me about your dream property or any questions you have..."></textarea>
-      </div>
-
-      <button class="form-submit" onclick="handleSubmit()">Send Message</button>
-
-      <p style="font-size:0.7rem;color:var(--white-dim);margin-top:1rem;text-align:center;">
-        I typically respond within a few hours. You can also reach me directly via WhatsApp for faster communication.
-      </p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">Sofonias <span>Teshome</span></div>
-    <div class="footer-center">© 2025 Sofonias Teshome · Sales Agent at Metro Real Estate™ · Addis Ababa, Ethiopia</div>
-    <div class="footer-right">
+    <div class="footer-logo">Sofonias <span>Teshome</span></div>
+    <div class="footer-copy">
+      Sales Agent · Metro Real Estate™<br>
+      Addis Ababa, Ethiopia · © 2025
+    </div>
+    <div class="footer-links">
       <a href="https://www.metrorealestateet.com" target="_blank" rel="noopener noreferrer">Metro Real Estate</a>
-      <a href="#contact">Contact</a>
+      <a href="#hero">Back to Top</a>
     </div>
   </footer>
 
   <script>
-    // ============ NAV SCROLL EFFECT ============
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    });
+    // ── Scroll reveal ──────────────────────────
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-    // ============ HAMBURGER ============
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileClose = document.getElementById('mobileClose');
+    // ── Bottom nav active state ─────────────────
+    const sections = ['about','services','gallery','metro','contact'];
+    const navLinks = document.querySelectorAll('.bottom-nav a[data-section]');
 
-    hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
-    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
-
-    function closeMobile() {
-      mobileMenu.classList.remove('open');
-    }
-
-    // ============ SCROLL REVEAL ============
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
+    const sectionObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
+          navLinks.forEach(l => l.classList.remove('active'));
+          const match = document.querySelector(`.bottom-nav a[data-section="${e.target.id}"]`);
+          if (match) match.classList.add('active');
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.4 });
+    sections.forEach(id => { const el = document.getElementById(id); if (el) sectionObs.observe(el); });
 
-    reveals.forEach(el => observer.observe(el));
+    // ── Gallery scroll dots ─────────────────────
+    const scroll = document.getElementById('galleryScroll');
+    const dots = document.querySelectorAll('#galleryDots span');
+    if (scroll) {
+      scroll.addEventListener('scroll', () => {
+        const idx = Math.round(scroll.scrollLeft / scroll.offsetWidth * (dots.length / (dots.length - 0.5)));
+        const clamped = Math.min(Math.max(idx, 0), dots.length - 1);
+        dots.forEach((d, i) => d.classList.toggle('active', i === clamped));
+      }, { passive: true });
+    }
 
-    // ============ CONTACT FORM ============
-    function handleSubmit() {
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName  = document.getElementById('lastName').value.trim();
-      const email     = document.getElementById('email').value.trim();
-      const phone     = document.getElementById('phone').value.trim();
-      const interest  = document.getElementById('interest').value;
-      const message   = document.getElementById('message').value.trim();
-
-      if (!firstName || !email || !message) {
-        alert('Please fill in your name, email, and message.');
-        return;
-      }
-
-      // Build WhatsApp message as fallback delivery
+    // ── Form → WhatsApp ────────────────────────
+    function sendViaWhatsApp() {
+      const fn   = document.getElementById('fn').value.trim();
+      const ln   = document.getElementById('ln').value.trim();
+      const ph   = document.getElementById('ph').value.trim();
+      const int  = document.getElementById('int').value;
+      const msg  = document.getElementById('msg').value.trim();
+      if (!fn || !msg) { alert('Please fill in your name and message.'); return; }
       const text = encodeURIComponent(
-        `Hello Sofonias! My name is ${firstName} ${lastName}.\n` +
-        `Email: ${email}\nPhone: ${phone}\n` +
-        `Interest: ${interest}\n\nMessage: ${message}`
+        `Hello Sofonias! 👋\n\nName: ${fn} ${ln}\nPhone: ${ph || 'not provided'}\nInterest: ${int || 'not specified'}\n\n${msg}`
       );
       window.open(`https://wa.me/251913554296?text=${text}`, '_blank');
     }
 
-    // Select element style fix
-    document.getElementById('interest').addEventListener('change', function () {
-      this.style.color = 'var(--white)';
-    });
+    // ── Fix select color on mobile ──────────────
+    document.getElementById('int').addEventListener('change', function() { this.style.color = 'var(--cream)'; });
+
+    // ── Desktop right panel visibility ─────────
+    function checkDesktop() {
+      const panel = document.getElementById('desktopPanel');
+      if (panel) panel.style.display = window.innerWidth >= 768 ? 'flex' : 'none';
+    }
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
   </script>
 </body>
 </html>
