@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Editor — Sofonias Teshome</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C9A84C;
+      --gold-lt: #E8C97A;
+      --ink: #0A0A0A;
+      --ink2: #131313;
+      --ink3: #1C1C1C;
+      --ink4: #252525;
+      --cream: #F4EFE6;
+      --cream-dim: rgba(244,239,230,0.55);
+      --green: #2ECC71;
+      --red: #E74C3C;
+    }
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink2);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 1rem; }
+    .admin-badge {
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+    }
+    .header-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .header-title span { color: var(--gold); }
+
+    .save-btn {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .save-btn:hover { background: var(--gold-lt); }
+    .save-btn:active { transform: scale(0.97); }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── SECTION CARDS ── */
+    .section-card {
+      background: var(--ink2);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-top: 2px solid rgba(201,168,76,0.25);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      background: var(--ink3);
+    }
+    .section-header:hover { background: var(--ink4); }
+    .section-header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .section-icon {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-icon svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .section-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .section-sub {
+      font-size: 0.68rem;
+      color: var(--cream-dim);
+      margin-top: 1px;
+    }
+    .chevron {
+      width: 16px; height: 16px;
+      stroke: var(--cream-dim);
+      fill: none;
+      stroke-width: 2;
+      transition: transform 0.3s;
+    }
+    .section-card.open .chevron { transform: rotate(180deg); }
+
+    .section-body {
+      display: none;
+      padding: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .section-card.open .section-body { display: block; }
+
+    /* ── FIELDS ── */
+    .field { margin-bottom: 1.1rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      background: var(--ink);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+    }
+    .field input:focus, .field textarea:focus {
+      border-color: rgba(201,168,76,0.45);
+    }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field-hint {
+      font-size: 0.65rem;
+      color: var(--cream-dim);
+      margin-top: 0.3rem;
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* Divider inside section */
+    .field-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin: 1rem 0;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--ink3);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--cream);
+      font-size: 0.8rem;
+      padding: 0.85rem 1.75rem;
+      z-index: 9999;
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { border-color: rgba(46,204,113,0.4); }
+    #toast.error { border-color: rgba(231,76,60,0.4); }
+    .toast-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    #toast.success .toast-dot { background: var(--green); }
+    #toast.error .toast-dot { background: var(--red); }
+
+    /* ── PREVIEW LINK ── */
+    .preview-bar {
+      background: var(--ink3);
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .preview-bar span { font-size: 0.75rem; color: var(--cream-dim); }
+    .preview-bar a {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── HOW TO USE ── */
+    .how-to {
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .how-to-title {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .how-to ol {
+      padding-left: 1.25rem;
+    }
+    .how-to li {
+      font-size: 0.78rem;
+      color: var(--cream-dim);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 500px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="admin-badge">Admin</div>
+      <div>
+        <div class="header-title">Sofonias <span>Teshome</span> — Site Editor</div>
+      </div>
+    </div>
+    <button class="save-btn" onclick="saveAll()">Save Changes</button>
+  </header>
+
+  <div class="container">
+
+    <div class="how-to">
+      <div class="how-to-title">📋 How to use</div>
+      <ol>
+        <li>Edit any field below</li>
+        <li>Click <strong style="color:var(--gold)">Save Changes</strong> at the top</li>
+        <li>Copy the downloaded <code style="color:var(--gold)">index.html</code> into your project folder</li>
+        <li>Push to GitHub — Vercel will update automatically</li>
+      </ol>
+    </div>
+
+    <div class="preview-bar">
+      <span>View your live site</span>
+      <a href="index.html" target="_blank">Open Preview →</a>
+    </div>
+
+    <!-- ── HERO ── -->
+    <div class="section-card open" id="card-hero">
+      <div class="section-header" onclick="toggle('hero')">
+        <div class="section-header-left">
+          <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+          <div>
+            <div class="section-name">Hero Section</div>
+            <div class="section-sub">Name, title, tagline, stats, phone</div>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>First Name</label>
+            <input type="text" id="hero_firstname" value="Sofonias" />
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            <input type="text" id="hero_lastname" value="Teshome" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Eyebrow Text (small text above name)</label>
+          <input type="text" id="hero_eyebrow" value="Metro Real Estate · Addis Ababa" />
+        </div>
+        <div class="field">
+          <label>Job Title</label>
+          <input type="text" id="hero_role" value="Sales Agent · Metro Real Estate™" />
+        </div>
+        <hr class="field-divider">
+        <div class="field-row">
+          <div class="field">
+            <label>Stat 1 Number</label>
+            <input type="text" id="stat1_num" value="100+" />
+          </div>
+          <div class="field">
+            <label>Stat 1 Label</label>
+            <input type="text" id="stat1_lbl" value="Clients" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Stat 2 Number</label>
+            <input type="text" id="stat2_num" value="50+" />
+          </div>
+          <div class="field">
+            <label>Stat 2 Label</label>
+            <input type="text" id="stat2_lbl" value="Sold" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Stat 3 Number</label>
+            <input type="text" id="stat3_num" value="5★" />
+          </div>
+          <div class="field">
+            <label>Stat 3 Label</label>
+            <input type="text" id="stat3_lbl" value="Rated" />
+          </div>
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Personal Phone Number</label>
+          <input type="text" id="phone_personal" value="+251913554296" />
+          <div class="field-hint">Used for the Call Now button and WhatsApp link</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <div class="section-card" id="card-about">
+      <div class="section-header" onclick="toggle('about')">
+        <div class="section-header-left">
+          <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div>
+            <div class="section-name">About Section</div>
+            <div class="section-sub">Bio paragraphs and values</div>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" id="about_title" value="Turning Properties Into Dream Homes" />
+        </div>
+        <div class="field">
+          <label>Bio Paragraph 1</label>
+          <textarea id="about_p1">I am Sofonias Teshome, a dedicated sales agent at Metro Real Estate™ — one of Ethiopia's most trusted property companies. Based in Addis Ababa, I help clients buy, sell, and find properties that truly match their vision and lifestyle.</textarea>
+        </div>
+        <div class="field">
+          <label>Bio Paragraph 2</label>
+          <textarea id="about_p2">Whether you are a first-time buyer, an investor, or a family ready for something better — I bring honesty, local expertise, and genuine care to every step of the journey.</textarea>
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Value 1 Title</label>
+          <input type="text" id="val1_title" value="Client-First" />
+        </div>
+        <div class="field">
+          <label>Value 1 Description</label>
+          <input type="text" id="val1_desc" value="Your goals drive every decision I make." />
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Value 2 Title</label>
+          <input type="text" id="val2_title" value="Transparent" />
+        </div>
+        <div class="field">
+          <label>Value 2 Description</label>
+          <input type="text" id="val2_desc" value="Honest guidance, no surprises." />
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Value 3 Title</label>
+          <input type="text" id="val3_title" value="Local Expert" />
+        </div>
+        <div class="field">
+          <label>Value 3 Description</label>
+          <input type="text" id="val3_desc" value="Deep knowledge of Addis Ababa's market." />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SERVICES ── -->
+    <div class="section-card" id="card-services">
+      <div class="section-header" onclick="toggle('services')">
+        <div class="section-header-left">
+          <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div>
+            <div class="section-name">Services Section</div>
+            <div class="section-sub">3 service cards — name and description</div>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Service 1 Name</label>
+          <input type="text" id="s1_name" value="Property Sales" />
+        </div>
+        <div class="field">
+          <label>Service 1 Description</label>
+          <textarea id="s1_desc">Expert guidance on buying & selling residential and commercial properties across Addis Ababa.</textarea>
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Service 2 Name</label>
+          <input type="text" id="s2_name" value="Property Search" />
+        </div>
+        <div class="field">
+          <label>Service 2 Description</label>
+          <textarea id="s2_desc">Tell me your vision — I find properties that match your lifestyle, budget, and investment goals.</textarea>
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Service 3 Name</label>
+          <input type="text" id="s3_name" value="Free Consultation" />
+        </div>
+        <div class="field">
+          <label>Service 3 Description</label>
+          <textarea id="s3_desc">One-on-one sessions to understand your needs and outline a strategy just for you. No cost, no obligation.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── METRO ── -->
+    <div class="section-card" id="card-metro">
+      <div class="section-header" onclick="toggle('metro')">
+        <div class="section-header-left">
+          <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+          <div>
+            <div class="section-name">Metro Partnership Section</div>
+            <div class="section-sub">Office info, address, description</div>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Description</label>
+          <textarea id="metro_body">As an official agent at Metro Real Estate™ — Ethiopia's premier property company — I have direct access to exclusive listings, off-plan developments, and the full Metro portfolio.</textarea>
+        </div>
+        <div class="field">
+          <label>Office Address Line 1</label>
+          <input type="text" id="metro_addr1" value="2nd Floor, Sur Construction Building" />
+        </div>
+        <div class="field">
+          <label>Office Address Line 2</label>
+          <input type="text" id="metro_addr2" value="Africa Avenue, Addis Ababa, Ethiopia" />
+        </div>
+        <div class="field">
+          <label>Office Phone</label>
+          <input type="text" id="metro_phone" value="+251 938 060 606" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="section-card" id="card-contact">
+      <div class="section-header" onclick="toggle('contact')">
+        <div class="section-header-left">
+          <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72c.128.96.338 1.905.63 2.82a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.916.292 1.86.502 2.82.63A2 2 0 0122 16.92z"/></svg></div>
+          <div>
+            <div class="section-name">Contact Section</div>
+            <div class="section-sub">Phone, email, WhatsApp, office</div>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Section Title</label>
+          <input type="text" id="contact_title" value="Let's Find Your Perfect Space" />
+        </div>
+        <div class="field">
+          <label>Intro Text</label>
+          <textarea id="contact_intro">Reach out directly — I respond quickly and am always happy to talk about any property.</textarea>
+        </div>
+        <hr class="field-divider">
+        <div class="field">
+          <label>Personal Phone (Call & WhatsApp)</label>
+          <input type="text" id="contact_phone" value="+251 913 554 296" />
+        </div>
+        <div class="field">
+          <label>Personal Phone Sub-text</label>
+          <input type="text" id="contact_phone_sub" value="Tap to call" />
+        </div>
+        <div class="field">
+          <label>WhatsApp Sub-text</label>
+          <input type="text" id="contact_wa_sub" value="Fastest way to reach me" />
+        </div>
+        <div class="field">
+          <label>Office Email</label>
+          <input type="text" id="contact_email" value="sales@metrorealestateet.com" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast">
+    <div class="toast-dot"></div>
+    <span id="toast-msg">Changes saved!</span>
+  </div>
+
+  <script>
+    // ── Toggle sections ──────────────────────
+    function toggle(id) {
+      const card = document.getElementById('card-' + id);
+      card.classList.toggle('open');
+    }
+
+    // ── Show toast ───────────────────────────
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      t.className = 'show ' + type;
+      setTimeout(() => { t.className = ''; }, 3500);
+    }
+
+    // ── Read all field values ────────────────
+    function v(id) { return document.getElementById(id).value.trim(); }
+
+    // ── Build the updated index.html ─────────
+    function buildHTML() {
+      const phone = v('phone_personal').replace(/\s/g, '');
+      const waPhone = phone.startsWith('+') ? phone.slice(1) : phone;
+
+      return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>${v('hero_firstname')} ${v('hero_lastname')} — Real Estate Agent</title>
+  <meta name="description" content="${v('hero_firstname')} ${v('hero_lastname')}, ${v('hero_role')} in Addis Ababa, Ethiopia." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold:       #C9A84C;
+      --gold-lt:    #E8C97A;
+      --gold-dk:    #7A5E28;
+      --ink:        #0A0A0A;
+      --ink2:       #131313;
+      --ink3:       #1C1C1C;
+      --ink4:       #252525;
+      --cream:      #F4EFE6;
+      --cream-dim:  rgba(244,239,230,0.55);
+      --cream-faint:rgba(244,239,230,0.10);
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'DM Sans', system-ui, sans-serif;
+      --ease:       cubic-bezier(0.25,0.46,0.45,0.94);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { background: var(--ink); color: var(--cream); font-family: var(--sans); font-weight: 300; line-height: 1.65; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+    ::selection { background: var(--gold); color: var(--ink); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--ink2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); }
+    body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9000; opacity: 0.5; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: rgba(10,10,10,0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: space-around; padding: 0.6rem 0.5rem calc(0.6rem + var(--safe-bottom)); }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: var(--cream-dim); font-size: 0.55rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; min-width: 52px; padding: 0.25rem; }
+    .bottom-nav a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+    .bottom-nav a.active, .bottom-nav a:active { color: var(--gold); }
+    .top-nav { display: none; }
+    @media (min-width: 768px) {
+      .bottom-nav { display: none; }
+      .top-nav { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 999; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(10,10,10,0.88); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(201,168,76,0.12); }
+      .top-nav .logo { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--cream); text-decoration: none; letter-spacing: 0.03em; }
+      .top-nav .logo span { color: var(--gold); }
+      .top-nav ul { list-style: none; display: flex; gap: 2rem; }
+      .top-nav ul a { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s; }
+      .top-nav ul a:hover { color: var(--gold); }
+      .top-nav .cta { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: var(--gold); padding: 0.6rem 1.4rem; text-decoration: none; transition: background 0.3s; }
+      .top-nav .cta:hover { background: var(--gold-lt); }
+    }
+    #hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden; padding: 0 0 calc(80px + var(--safe-bottom)); }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,0.07) 0%, transparent 70%), linear-gradient(180deg, var(--ink) 0%, var(--ink2) 100%); overflow: hidden; }
+    .hero-bg::after { content: ''; position: absolute; top: 0; right: 10%; width: 1px; height: 45%; background: linear-gradient(to bottom, transparent, var(--gold-dk), transparent); }
+    .hero-content { position: relative; z-index: 2; padding: 0 1.5rem; }
+    .hero-avatar { width: 130px; height: 130px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.4); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+    .hero-avatar::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.15); }
+    .hero-avatar-initials { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: var(--gold); }
+    .hero-eyebrow { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+    .hero-name { font-family: var(--serif); font-size: clamp(2.8rem, 11vw, 4.5rem); font-weight: 300; line-height: 1.05; margin-bottom: 0.35rem; }
+    .hero-name em { font-style: italic; color: var(--gold-lt); }
+    .hero-role { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 1.75rem; }
+    .hero-btns { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .hero-btns a { display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-decoration: none; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; padding: 1rem 1.5rem; transition: background 0.3s, color 0.3s, transform 0.2s; -webkit-tap-highlight-color: transparent; }
+    .hero-btns a:active { transform: scale(0.97); }
+    .btn-gold { background: var(--gold); color: var(--ink); }
+    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+    .hero-btns a svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-gold svg { stroke: var(--ink); fill: none; stroke-width: 2; }
+    .btn-outline svg { stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--cream-faint); padding-top: 1.5rem; }
+    .hero-stat { text-align: center; padding: 0 0.5rem; border-right: 1px solid var(--cream-faint); }
+    .hero-stat:last-child { border-right: none; }
+    .stat-n { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--gold); line-height: 1; }
+    .stat-l { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); margin-top: 4px; }
+    section { padding: 4rem 1.5rem; }
+    .s-label { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
+    .s-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); flex-shrink: 0; }
+    .s-title { font-family: var(--serif); font-size: clamp(2rem, 7vw, 3rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.25rem; }
+    .s-title em { font-style: italic; color: var(--gold-lt); }
+    #about { background: var(--ink2); }
+    .about-body { font-size: 0.9rem; color: var(--cream-dim); line-height: 1.85; margin-bottom: 1rem; }
+    .value-list { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1rem; }
+    .value-row { display: flex; align-items: flex-start; gap: 0.9rem; }
+    .v-dot { width: 22px; height: 22px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .v-dot svg { width: 10px; height: 10px; stroke: var(--gold); fill: none; stroke-width: 2.5; }
+    .value-row span { font-size: 0.82rem; color: var(--cream-dim); }
+    .value-row span strong { color: var(--cream); font-weight: 500; }
+    #services { background: var(--ink); }
+    .services-list { display: flex; flex-direction: column; gap: 2px; margin-top: 2rem; }
+    .service-item { background: var(--ink2); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start; position: relative; overflow: hidden; transition: background 0.3s; -webkit-tap-highlight-color: transparent; }
+    .service-item::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gold); transform: scaleY(0); transform-origin: bottom; transition: transform 0.4s var(--ease); }
+    .service-item:active::after, .service-item:hover::after { transform: scaleY(1); }
+    .service-item:hover { background: var(--ink3); }
+    .si-icon { width: 40px; height: 40px; border: 1px solid rgba(201,168,76,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .si-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .si-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--cream); margin-bottom: 0.3rem; }
+    .si-desc { font-size: 0.8rem; color: var(--cream-dim); line-height: 1.7; }
+    .si-num { margin-left: auto; font-family: var(--serif); font-size: 2rem; font-weight: 300; color: rgba(201,168,76,0.12); line-height: 1; flex-shrink: 0; align-self: flex-start; }
+    #gallery { background: var(--ink2); padding-bottom: 3rem; }
+    .gallery-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; }
+    .gallery-more { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; margin-top: 1.75rem; flex-shrink: 0; }
+    .gallery-more svg { width: 13px; height: 13px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .gallery-scroll { display: flex; gap: 2px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 0 -1.5rem; padding: 0 1.5rem; }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-card { scroll-snap-align: start; flex-shrink: 0; width: 80vw; max-width: 380px; height: 240px; position: relative; overflow: hidden; background: var(--ink3); }
+    .gallery-card:last-child { margin-right: 3rem; }
+    .gallery-card img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0.8) saturate(0.85); transition: filter 0.5s, transform 0.5s; }
+    .gallery-card:hover img { filter: brightness(0.95) saturate(1); transform: scale(1.04); }
+    .gallery-card-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(10,10,10,0.75)); padding: 2rem 1rem 0.9rem; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+    .gallery-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, var(--ink3), var(--ink4)); }
+    .gallery-placeholder svg { width: 24px; height: 24px; stroke: rgba(201,168,76,0.25); fill: none; }
+    .gallery-placeholder span { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(201,168,76,0.25); }
+    .gallery-dots { display: flex; gap: 6px; justify-content: center; margin-top: 1.25rem; }
+    .gallery-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(201,168,76,0.2); transition: background 0.3s, transform 0.3s; }
+    .gallery-dots span.active { background: var(--gold); transform: scale(1.3); }
+    #metro { background: var(--ink); text-align: center; }
+    .metro-logo-box { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--ink2); border: 1px solid rgba(201,168,76,0.2); padding: 0.75rem 1.5rem; margin-bottom: 1.75rem; }
+    .metro-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+    .metro-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+    .metro-body { font-size: 0.85rem; color: var(--cream-dim); line-height: 1.85; max-width: 480px; margin: 0 auto 2rem; }
+    .metro-address { background: var(--ink2); border: 1px solid rgba(201,168,76,0.12); border-top: 2px solid rgba(201,168,76,0.3); padding: 1.5rem; margin-bottom: 1.5rem; text-align: left; }
+    .addr-label { font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .addr-text { font-size: 0.85rem; color: var(--cream-dim); line-height: 1.7; }
+    .metro-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .metro-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-decoration: none; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; padding: 1rem 1.5rem; transition: background 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
+    .metro-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .metro-btn-gold { background: var(--gold); color: var(--ink); }
+    .metro-btn-gold:hover { background: var(--gold-lt); }
+    .metro-btn-outline { background: transparent; color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+    .metro-btn-outline:hover { border-color: var(--gold); }
+    #contact { background: var(--ink2); padding-bottom: calc(100px + var(--safe-bottom)); }
+    .contact-tiles { display: flex; flex-direction: column; gap: 2px; margin: 1.75rem 0; }
+    .ctile { display: flex; align-items: center; gap: 1.1rem; background: var(--ink3); padding: 1.1rem 1.25rem; text-decoration: none; transition: background 0.25s; -webkit-tap-highlight-color: transparent; position: relative; overflow: hidden; }
+    .ctile:active, .ctile:hover { background: var(--ink4); }
+    .ctile-icon { width: 42px; height: 42px; border: 1px solid rgba(201,168,76,0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ctile-icon svg { width: 17px; height: 17px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .ctile-body { min-width: 0; }
+    .ctile-label { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-dk); margin-bottom: 2px; }
+    .ctile-value { font-size: 0.92rem; color: var(--cream); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ctile-sub { font-size: 0.72rem; color: var(--cream-dim); margin-top: 1px; }
+    .ctile-arrow { margin-left: auto; flex-shrink: 0; }
+    .ctile-arrow svg { width: 16px; height: 16px; stroke: rgba(201,168,76,0.3); fill: none; stroke-width: 1.5; }
+    .form-card { background: var(--ink3); border-top: 2px solid rgba(201,168,76,0.25); padding: 1.75rem 1.25rem; margin-top: 2px; }
+    .form-card-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 300; color: var(--cream); margin-bottom: 1.25rem; }
+    .fg { margin-bottom: 1rem; }
+    .fg label { display: block; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 0.4rem; }
+    .fg input, .fg textarea, .fg select { width: 100%; background: var(--ink2); border: 1px solid rgba(255,255,255,0.07); color: var(--cream); font-family: var(--sans); font-weight: 300; padding: 0.85rem 1rem; outline: none; -webkit-appearance: none; border-radius: 0; transition: border-color 0.3s; font-size: max(16px, 0.9rem); }
+    .fg input:focus, .fg textarea:focus, .fg select:focus { border-color: rgba(201,168,76,0.45); }
+    .fg input::placeholder, .fg textarea::placeholder { color: rgba(244,239,230,0.22); }
+    .fg textarea { resize: none; height: 110px; }
+    .fg select option { background: var(--ink2); }
+    .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .form-submit { width: 100%; background: var(--gold); color: var(--ink); border: none; font-family: var(--sans); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; padding: 1.05rem; cursor: pointer; transition: background 0.3s; margin-top: 0.25rem; -webkit-tap-highlight-color: transparent; }
+    .form-submit:active { background: var(--gold-lt); transform: scale(0.98); }
+    .form-note { font-size: 0.7rem; color: var(--cream-dim); text-align: center; margin-top: 0.9rem; line-height: 1.6; }
+    .wa-float { display: none; }
+    @media (min-width: 768px) {
+      .wa-float { display: flex; position: fixed; bottom: 2rem; right: 2rem; z-index: 998; width: 54px; height: 54px; background: #25D366; border-radius: 50%; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.35); transition: transform 0.3s, box-shadow 0.3s; }
+      .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
+      .wa-float svg { width: 26px; height: 26px; fill: #fff; }
+      #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 5rem; }
+      .hero-content { max-width: 620px; padding: 0; }
+      #about { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+      #metro { padding: 7rem 3rem; }
+      .metro-links { flex-direction: row; justify-content: center; }
+      .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+      footer { padding: 2.5rem 3rem; }
+      section { padding: 7rem 3rem; }
+      #gallery { padding: 7rem 3rem 3rem; }
+      #contact { padding: 7rem 3rem calc(4rem + var(--safe-bottom)); }
+    }
+    footer { background: var(--ink); border-top: 1px solid var(--cream-faint); padding: 2rem 1.5rem calc(2rem + var(--safe-bottom)); text-align: center; }
+    .footer-logo { font-family: var(--serif); font-size: 1.15rem; color: var(--cream-dim); margin-bottom: 0.5rem; }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy { font-size: 0.62rem; letter-spacing: 0.12em; color: rgba(244,239,230,0.28); line-height: 1.8; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
+    .footer-links a { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(244,239,230,0.3); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+    .rv.in { opacity: 1; transform: none; }
+    .rv.d1 { transition-delay: 0.1s; }
+    .rv.d2 { transition-delay: 0.2s; }
+    .rv.d3 { transition-delay: 0.3s; }
+    @media (max-width: 500px) { .fg-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="#hero" class="logo">${v('hero_firstname')} <span>${v('hero_lastname')}</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#metro">Metro</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="cta">Get in Touch</a>
+  </nav>
+  <nav class="bottom-nav" id="bottomNav">
+    <a href="#about" data-section="about"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
+    <a href="#services" data-section="services"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Services</a>
+    <a href="#gallery" data-section="gallery"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Gallery</a>
+    <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke-width="1.5"/></svg>WhatsApp</a>
+    <a href="#contact" data-section="contact"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Contact</a>
+  </nav>
+  <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+  <section id="hero">
+    <div class="hero-bg">
+      <img src="https://res.cloudinary.com/dgxqifwdf/image/upload/w_1920,q_100,f_auto/v1779783072/20260408_085927_zt2l5p.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;filter:grayscale(0%);" />
+    </div>
+    <div class="hero-content">
+      <div class="hero-avatar rv">
+        <img src="https://res.cloudinary.com/dgxqifwdf/image/upload/w_800,q_100,f_auto/v1779783072/20260408_085927_zt2l5p.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+      </div>
+      <div class="hero-eyebrow rv d1">${v('hero_eyebrow')}</div>
+      <h1 class="hero-name rv d1">${v('hero_firstname')}<br><em>${v('hero_lastname')}</em></h1>
+      <p class="hero-role rv d2">${v('hero_role')}</p>
+      <div class="hero-btns rv d2">
+        <a href="tel:${phone}" class="btn-gold"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72c.128.96.338 1.905.63 2.82a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.916.292 1.86.502 2.82.63A2 2 0 0122 16.92z"/></svg>Call Now</a>
+        <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener noreferrer" class="btn-outline"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp Me</a>
+      </div>
+      <div class="hero-stats rv d3">
+        <div class="hero-stat"><div class="stat-n">${v('stat1_num')}</div><div class="stat-l">${v('stat1_lbl')}</div></div>
+        <div class="hero-stat"><div class="stat-n">${v('stat2_num')}</div><div class="stat-l">${v('stat2_lbl')}</div></div>
+        <div class="hero-stat"><div class="stat-n">${v('stat3_num')}</div><div class="stat-l">${v('stat3_lbl')}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div>
+      <div class="s-label rv">About Me</div>
+      <h2 class="s-title rv d1">${v('about_title')}</h2>
+      <p class="about-body rv d2">${v('about_p1')}</p>
+      <p class="about-body rv d2">${v('about_p2')}</p>
+      <div class="value-list rv d3">
+        <div class="value-row"><div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span><strong>${v('val1_title')}</strong> — ${v('val1_desc')}</span></div>
+        <div class="value-row"><div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span><strong>${v('val2_title')}</strong> — ${v('val2_desc')}</span></div>
+        <div class="value-row"><div class="v-dot"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span><strong>${v('val3_title')}</strong> — ${v('val3_desc')}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="s-label rv">What I Offer</div>
+    <h2 class="s-title rv d1">My <em>Services</em></h2>
+    <div class="services-list">
+      <div class="service-item rv d1">
+        <div class="si-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="si-body"><div class="si-name">${v('s1_name')}</div><div class="si-desc">${v('s1_desc')}</div></div>
+        <div class="si-num">01</div>
+      </div>
+      <div class="service-item rv d2">
+        <div class="si-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="si-body"><div class="si-name">${v('s2_name')}</div><div class="si-desc">${v('s2_desc')}</div></div>
+        <div class="si-num">02</div>
+      </div>
+      <div class="service-item rv d3">
+        <div class="si-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="si-body"><div class="si-name">${v('s3_name')}</div><div class="si-desc">${v('s3_desc')}</div></div>
+        <div class="si-num">03</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="gallery-top">
+      <div><div class="s-label rv">Portfolio</div><h2 class="s-title rv d1">Metro<br><em>Properties</em></h2></div>
+      <a href="https://www.metrorealestateet.com/gallery" target="_blank" rel="noopener noreferrer" class="gallery-more rv d1">All Photos <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div class="gallery-scroll" id="galleryScroll">
+      <div class="gallery-card"><img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F1.jpg&w=800&q=80" alt="Metro Property" loading="lazy" onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Metro Property</span></div>'" /><div class="gallery-card-label">Metro Real Estate™</div></div>
+      <div class="gallery-card"><img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F2.jpg&w=800&q=80" alt="Luxury Living" loading="lazy" onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Luxury Living</span></div>'" /><div class="gallery-card-label">Luxury Living</div></div>
+      <div class="gallery-card"><img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F3.jpg&w=800&q=80" alt="Modern Design" loading="lazy" onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Modern Design</span></div>'" /><div class="gallery-card-label">Modern Design</div></div>
+      <div class="gallery-card"><img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F4.jpg&w=800&q=80" alt="Premium Spaces" loading="lazy" onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Premium Spaces</span></div>'" /><div class="gallery-card-label">Premium Spaces</div></div>
+      <div class="gallery-card"><img src="https://www.metrorealestateet.com/_next/image?url=%2Fimages%2Fgallery%2F5.jpg&w=800&q=80" alt="Dream Homes" loading="lazy" onerror="this.outerHTML='<div class=\'gallery-placeholder\'><svg viewBox=\'0 0 24 24\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg><span>Dream Homes</span></div>'" /><div class="gallery-card-label">Dream Homes</div></div>
+    </div>
+    <div class="gallery-dots" id="galleryDots"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+  </section>
+
+  <section id="metro">
+    <div class="metro-logo-box rv"><div class="metro-dot"></div><span class="metro-label">Official Sales Agent</span><div class="metro-dot"></div></div>
+    <div class="s-label rv" style="justify-content:center;">Backed By</div>
+    <h2 class="s-title rv d1" style="text-align:center;font-size:clamp(2.5rem,10vw,4rem);">Metro<br><em>Real Estate™</em></h2>
+    <p class="metro-body rv d2">${v('metro_body')}</p>
+    <div class="metro-address rv d2">
+      <div class="addr-label">Office Location</div>
+      <div class="addr-text">${v('metro_addr1')}<br>${v('metro_addr2')}<br><span style="color:var(--gold);margin-top:4px;display:block;">${v('metro_phone')}</span></div>
+    </div>
+    <div class="metro-links rv d3">
+      <a href="https://www.metrorealestateet.com/property-list" target="_blank" rel="noopener noreferrer" class="metro-btn metro-btn-gold">Browse All Properties <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a href="https://www.metrorealestateet.com" target="_blank" rel="noopener noreferrer" class="metro-btn metro-btn-outline">Visit Metro Website <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-grid">
+      <div>
+        <div class="s-label rv">Get in Touch</div>
+        <h2 class="s-title rv d1">${v('contact_title')}</h2>
+        <p class="rv d2" style="font-size:0.85rem;color:var(--cream-dim);margin-bottom:0.25rem;line-height:1.8;">${v('contact_intro')}</p>
+        <div class="contact-tiles">
+          <a href="tel:${phone}" class="ctile rv"><div class="ctile-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 2 2 0 012 2h3a2 2 0 012 1.72c.128.96.338 1.905.63 2.82a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.916.292 1.86.502 2.82.63A2 2 0 0122 16.92z"/></svg></div><div class="ctile-body"><div class="ctile-label">Personal Phone</div><div class="ctile-value">${v('contact_phone')}</div><div class="ctile-sub">${v('contact_phone_sub')}</div></div><div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></a>
+          <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener noreferrer" class="ctile rv d1"><div class="ctile-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div class="ctile-body"><div class="ctile-label">WhatsApp</div><div class="ctile-value">${v('contact_phone')}</div><div class="ctile-sub">${v('contact_wa_sub')}</div></div><div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></a>
+          <a href="tel:${v('metro_phone').replace(/\s/g,'')}" class="ctile rv d2"><div class="ctile-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="ctile-body"><div class="ctile-label">Metro Office</div><div class="ctile-value">${v('metro_phone')}</div><div class="ctile-sub">${v('metro_addr2')}</div></div><div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></a>
+          <a href="mailto:${v('contact_email')}" class="ctile rv d3"><div class="ctile-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="ctile-body"><div class="ctile-label">Email</div><div class="ctile-value">${v('contact_email')}</div><div class="ctile-sub">Metro Real Estate™</div></div><div class="ctile-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></a>
+        </div>
+      </div>
+      <div class="form-card rv d2">
+        <div class="form-card-title">Send a Message</div>
+        <div class="fg-row">
+          <div class="fg"><label for="fn">First Name</label><input type="text" id="fn" placeholder="First name" autocomplete="given-name" /></div>
+          <div class="fg"><label for="ln">Last Name</label><input type="text" id="ln" placeholder="Last name" autocomplete="family-name" /></div>
+        </div>
+        <div class="fg"><label for="ph">Phone</label><input type="tel" id="ph" placeholder="+251..." autocomplete="tel" /></div>
+        <div class="fg"><label for="int">I'm interested in</label><select id="int"><option value="" disabled selected>Select...</option><option>Buying a property</option><option>Selling a property</option><option>Investment opportunity</option><option>General inquiry</option></select></div>
+        <div class="fg"><label for="msg">Message</label><textarea id="msg" placeholder="Tell me what you're looking for..."></textarea></div>
+        <button class="form-submit" onclick="sendViaWhatsApp()">Send via WhatsApp</button>
+        <p class="form-note">Your message opens in WhatsApp — fast & convenient.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">${v('hero_firstname')} <span>${v('hero_lastname')}</span></div>
+    <div class="footer-copy">Sales Agent · Metro Real Estate™<br>Addis Ababa, Ethiopia · © 2025</div>
+    <div class="footer-links">
+      <a href="https://www.metrorealestateet.com" target="_blank" rel="noopener noreferrer">Metro Real Estate</a>
+      <a href="#hero">Back to Top</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+    const navLinks = document.querySelectorAll('.bottom-nav a[data-section]');
+    const sectionObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { navLinks.forEach(l => l.classList.remove('active')); const m = document.querySelector('.bottom-nav a[data-section="' + e.target.id + '"]'); if (m) m.classList.add('active'); } }); }, { threshold: 0.4 });
+    ['about','services','gallery','metro','contact'].forEach(id => { const el = document.getElementById(id); if (el) sectionObs.observe(el); });
+    const scroll = document.getElementById('galleryScroll');
+    const dots = document.querySelectorAll('#galleryDots span');
+    if (scroll) { scroll.addEventListener('scroll', () => { const idx = Math.round(scroll.scrollLeft / scroll.offsetWidth * (dots.length / (dots.length - 0.5))); const c = Math.min(Math.max(idx, 0), dots.length - 1); dots.forEach((d, i) => d.classList.toggle('active', i === c)); }, { passive: true }); }
+    function sendViaWhatsApp() {
+      const fn = document.getElementById('fn').value.trim();
+      const ln = document.getElementById('ln').value.trim();
+      const ph = document.getElementById('ph').value.trim();
+      const int = document.getElementById('int').value;
+      const msg = document.getElementById('msg').value.trim();
+      if (!fn || !msg) { alert('Please fill in your name and message.'); return; }
+      const text = encodeURIComponent('Hello ${v('hero_firstname')}! 👋\\n\\nName: ' + fn + ' ' + ln + '\\nPhone: ' + (ph || 'not provided') + '\\nInterest: ' + (int || 'not specified') + '\\n\\n' + msg);
+      window.open('https://wa.me/${waPhone}?text=' + text, '_blank');
+    }
+    document.getElementById('int').addEventListener('change', function() { this.style.color = 'var(--cream)'; });
+  <\/script>
+</body>
+</html>`;
+    }
+
+    // ── Save = download updated index.html ───
+    function saveAll() {
+      try {
+        const html = buildHTML();
+        const blob = new Blob([html], { type: 'text/html' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'index.html';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('index.html downloaded! Replace in your folder.', 'success');
+      } catch (e) {
+        showToast('Something went wrong. Try again.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
